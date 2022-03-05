@@ -1,7 +1,7 @@
 const path = require("path");
 
 const express = require("express");
-const authRoutes = require("./controllers/auth-controller");
+const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
