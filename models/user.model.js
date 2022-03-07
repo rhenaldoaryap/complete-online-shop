@@ -15,7 +15,7 @@ class User {
   }
 
   getUserWithSameEmail() {
-    db.getDb().collection("users").findOne({ email: this.email });
+    return db.getDb().collection("users").findOne({ email: this.email });
   }
 
   async signup() {
