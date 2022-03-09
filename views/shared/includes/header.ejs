@@ -1,26 +1,13 @@
-<header>
-  <div><a href="/">Online Shop</a></div>
-  <nav>
-    <ul>
-      <% if (!locals.isAdmin) { %>
-      <li><a href="/">Shop</a></li>
-      <li><a href="/cart">Cart</a></li>
-      <% } %> <% if (locals.isAuth && !locals.isAdmin) { %>
-      <li><a href="/orders"></a></li>
-      <% } %> <% if (locals.isAdmin) { %>
-      <li><a href="/admin/products">Manage Products</a></li>
-      <li><a href="/admin/orders">Manage Orders</a></li>
-      <% } %> <% if (!locals.isAuth) { %>
-      <li><a href="/signup">Signup</a></li>
-      <li><a href="/login">Login</a></li>
-      <% } %> <% if (locals.isAuth) { %>
-      <li>
-        <form action="/logout" method="POST">
-          <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
-          <button>Logout</button>
-        </form>
-      </li>
-      <% } %>
-    </ul>
-  </nav>
+<header id="main-header">
+  <div id="logo"><a href="/">Demo Shop</a></div>
+  <nav><%- include("nav-items") %></nav>
+  <button id="mobile-menu-btn">
+    <span class="bar top"></span>
+    <span class="bar middle"></span>
+    <span class="bar bottom"></span>
+  </button>
 </header>
+
+<aside id="mobile-menu">
+  <nav><%- include("nav-items") %></nav>
+</aside>
