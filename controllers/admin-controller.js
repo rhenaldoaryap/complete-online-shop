@@ -6,7 +6,9 @@ function getNewProduct(req, res) {
   res.render("admin/products/new-product");
 }
 
-function createNewProduct() {}
+function createNewProduct(req, res) {
+  res.redirect("/admin/products");
+}
 
 module.exports = {
   getProducts: getProducts,
