@@ -9,8 +9,7 @@ class Product {
     this.price = +productData.price;
     this.description = productData.description;
     this.image = productData.image; // store name of the image
-    this.imagePath = `product-data/images/${productData.image}`;
-    this.imageUrl = `/products/assets/images/${productData.image}`;
+    this.updateImageData();
     if (productData._id) {
       this.id = productData._id.toString();
     }
@@ -34,7 +33,14 @@ class Product {
       throw error;
     }
 
-    return product;
+    // wrong return, because only returning the whole document only from database
+    // never converted to an instance based on the Product Class Object
+    // and hence doesn't have an id, will cause an error
+    // return product;
+
+    // correct return
+    // getting the _id based on the instance of the Product Class Object
+    return new Product(product);
   }
 
   static async findAll() {
@@ -46,6 +52,11 @@ class Product {
     });
   }
 
+  updateImageData() {
+    this.imagePath = `product-data/images/${this.image}`;
+    this.imageUrl = `/products/assets/images/${this.image}`;
+  }
+
   async save() {
     const productData = {
       title: this.title,
@@ -54,7 +65,35 @@ class Product {
       description: this.description,
       image: this.image,
     };
-    await db.getDb().collection("products").insertOne(productData);
+
+    // checking whether we have an id that already stored before in database, if we have, we just update it
+    // OR
+    // if we don't have the id which means we create a new product
+    if (this.id) {
+      // updating the database
+      const productId = new mongodb.ObjectId(this.id);
+      // check if we have image on the server, if we have leave it
+      // and check whether user updating image or not, if user updating the image it will override image value in database to be a null/undefined value
+      // and it will store it into database, would be nice if we delete it and it will gone entirely :)
+      // if user did not updating the image, at $set line 79, will simply don't have the image and hence mongoDB won't even try to update the image field
+      if (!this.image) {
+        delete productData.image;
+      }
+
+      await db.getDb().collection("products").updateOne(
+        { _id: productId },
+        {
+          $set: productData,
+        }
+      );
+    } else {
+      await db.getDb().collection("products").insertOne(productData);
+    }
+  }
+
+  async replaceImage(newImage) {
+    this.image = newImage;
+    this.updateImageData();
   }
 }
 
