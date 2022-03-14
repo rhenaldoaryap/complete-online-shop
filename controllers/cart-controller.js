@@ -13,7 +13,7 @@ async function addCartItem(req, res, next) {
 
   cart.addItem(product);
   // sending back session to server / database
-  res.session.cart = cart;
+  req.session.cart = cart;
 
   res.status(201).json({
     message: "Cart updated!",

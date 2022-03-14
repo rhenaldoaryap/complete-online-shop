@@ -17,7 +17,7 @@ class Cart {
       if (item.product.id === product.id) {
         cartItem.quantity = cartItem.quantity + 1;
         cartItem.totalPrice = cartItem.totalPrice + product.price;
-        item = cartItem;
+        this.items[i] = cartItem;
 
         // this.totalQuantity = this.totalQuantity + 1;
         // OR
@@ -30,6 +30,7 @@ class Cart {
     }
 
     this.items.push(cartItem);
+    this.totalQuantity++;
     this.totalPrice += product.price;
     return;
   }
