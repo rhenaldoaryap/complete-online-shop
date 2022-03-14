@@ -1,0 +1,38 @@
+class Cart {
+  constructor(items = [], totalQuantity = 0, totalPrice = 0) {
+    this.items = items;
+    this.totalQuantity = totalQuantity;
+    this.totalPrice = totalPrice;
+  }
+
+  addItem(product) {
+    const cartItem = {
+      product: product,
+      quantity: 1,
+      totalPrice: product.price,
+    };
+
+    for (let i = 0; i < this.items.length; i++) {
+      const item = this.items[i];
+      if (item.product.id === product.id) {
+        cartItem.quantity = cartItem.quantity + 1;
+        cartItem.totalPrice = cartItem.totalPrice + product.price;
+        item = cartItem;
+
+        // this.totalQuantity = this.totalQuantity + 1;
+        // OR
+        this.totalQuantity++;
+        // this.totalPrice = this.totalPrice + product.price;
+        // OR
+        this.totalPrice += product.price;
+        return;
+      }
+    }
+
+    this.items.push(cartItem);
+    this.totalPrice += product.price;
+    return;
+  }
+}
+
+module.exports = Cart;

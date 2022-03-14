@@ -10,9 +10,9 @@ async function getProducts(req, res, next) {
   }
 }
 
-function getNewProduct(req, res) {
+const getNewProduct = (req, res) => {
   res.render("admin/products/new-product");
-}
+};
 
 async function createNewProduct(req, res, next) {
   const product = new Product({
