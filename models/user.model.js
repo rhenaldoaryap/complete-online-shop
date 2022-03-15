@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const mongodb = require("mongodb");
 
 const db = require("../data/database");
 
@@ -12,6 +13,20 @@ class User {
       postalCode: postal,
       city: city,
     };
+  }
+
+  static findById(userId) {
+    const uid = mongodb.ObjectId(userId);
+
+    // second parameter is projection
+    // projection means, we can filter what data we want to get and what data we don't want to get
+    // projection will define as a second parameter, and inside of second parameter, we pass the configure we want to
+    // password: 0 means, we want to exclude the password from database, so we don't fetch the password field from database
+    // password: 1 vice versa, we wanto to include the password from database
+    return db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: uid }, { projection: { password: 0 } });
   }
 
   getUserWithSameEmail() {

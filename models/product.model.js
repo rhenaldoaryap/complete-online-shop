@@ -75,7 +75,7 @@ class Product {
       // check if we have image on the server, if we have leave it
       // and check whether user updating image or not, if user updating the image it will override image value in database to be a null/undefined value
       // and it will store it into database, would be nice if we delete it and it will gone entirely :)
-      // if user did not updating the image, at $set line 79, will simply don't have the image and hence mongoDB won't even try to update the image field
+      // if user did not updating the image, at $set line 86, will simply don't have the image and hence mongoDB won't even try to update the image field
       if (!this.image) {
         delete productData.image;
       }
