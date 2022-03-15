@@ -8,9 +8,10 @@ const createSessionConfig = require("./config/session");
 const db = require("./data/database");
 const addCsrfTokenMiddleware = require("./middlewares/csrf-token");
 const errorHandlerMiddleware = require("./middlewares/error-handler");
-const checkAuthMiddleware = require("./middlewares/check-auth");
+const checkAuthStatusMiddleware = require("./middlewares/check-auth");
 const protectRoutesMiddleware = require("./middlewares/protect-routes");
 const cartMiddleware = require("./middlewares/cart");
+const updateCartPricesMiddleware = require("./middlewares/update-cart-prices");
 const authRoutes = require("./routes/auth.routes");
 const productsRoutes = require("./routes/products.routes");
 const baseRoutes = require("./routes/base.routes");
@@ -34,9 +35,10 @@ app.use(expressSession(sessionConfig));
 app.use(csrf());
 
 app.use(cartMiddleware);
+app.use(updateCartPricesMiddleware);
 
 app.use(addCsrfTokenMiddleware);
-app.use(checkAuthMiddleware);
+app.use(checkAuthStatusMiddleware);
 
 app.use(baseRoutes);
 app.use(authRoutes);
@@ -53,6 +55,6 @@ db.connectToDatabase()
     app.listen(3000);
   })
   .catch(function (error) {
-    console.log("Failed connect to database");
+    console.log("Failed to connect to the database!");
     console.log(error);
   });

@@ -1,8 +1,15 @@
 const Order = require("../models/order.model");
 const User = require("../models/user.model");
 
-function getOrders(req, res) {
-  res.render("customer/orders/all-orders");
+// this function for all regular users
+// each of user must see their own orders, not the other order
+async function getOrders(req, res, next) {
+  try {
+    const orders = await Order.findAllForUser(res.locals.uid);
+    res.render("customer/orders/all-orders", { orders: orders });
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function addOrder(req, res, next) {
