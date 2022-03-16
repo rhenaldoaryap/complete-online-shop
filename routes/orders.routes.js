@@ -8,4 +8,7 @@ router.post("/", orderController.addOrder); // /orders -> see the prefix at app.
 
 router.get("/", orderController.getOrders);
 
+router.get("/success", orderController.getSuccess);
+
+router.get("/failure", orderController.getFailure);
 module.exports = router;
